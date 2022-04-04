@@ -10,6 +10,7 @@
      @yield('css')
 </head>
 <body>
+     {{-- masternlayout --}}
      @include('clients.block.header')
      <main>
 
