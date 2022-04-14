@@ -9,7 +9,8 @@ class HomeController extends Controller
 {
      public function index(){
           $title = 'Trang chủ';
-          return view('clients.home', compact('title'));
+          $content = "đặt hàng thành công";
+          return view('clients.home', compact('title', 'content'));
      }
 
      public function products(){

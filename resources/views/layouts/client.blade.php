@@ -13,7 +13,6 @@
      {{-- masternlayout --}}
      @include('clients.block.header')
      <main>
-
           <div class="container py-5">
                <div class="row">
                     <div class="col-4">
@@ -23,8 +22,7 @@
                               @show
                          </aside>
                     </div>
-                    <div class="col-8">
-                         
+                    <div class="col-8">                       
                          <div class="content">
                               @yield('content')
                          </div>
@@ -35,8 +33,6 @@
      </main>
     @include('clients.block.footer')
     @yield('js')
-
-
 
     <script src="{{asset('assets/clients/css/bootstrap.min.js')}}"></script>
     <script src="{{asset('assets/clients/css/style.js')}}"></script>
