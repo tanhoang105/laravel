@@ -24,6 +24,11 @@
      {{-- <x-inputs.button />  --}}
      {{-- gọi như vậy thì cần đăng ký  --}}
      {{-- <x-button />  --}}
+     
+     <p>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR56ylOyETFK3HWGE6AZUoMRGIn1CPlT9MFdDLyYcDh5w7kZ6TEBg-FXbyM-mms-QaESbs&usqp=CAU" alt="">
+     </p>
+     <a href="{{route('dowloadImg').'?img=' . public_path('storage/anh2.jpg')}}"><button class="btn btn-danger">Dowload</button></a>
 @endsection 
 
 @section('js')
