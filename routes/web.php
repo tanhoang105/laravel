@@ -116,8 +116,8 @@ Route::get('/', [HomeController::class , 'index'])->name('home');
 Route::get('products', [HomeController::class , 'products'])->name('products');
 Route::get('add-sp', [HomeController::class , 'getadd'])->name('getadd');
 Route::get('getArray', [HomeController::class , 'getArray'])->name('getArray');
-// Route::post('add-sp', [HomeController::class , 'postadd'])->name('postadd');
-Route::put('add-sp', [HomeController::class , 'putadd'])->name('putadd');
+Route::post('add-sp', [HomeController::class , 'postadd'])->name('postadd');
+// Route::put('add-sp', [HomeController::class , 'putadd'])->name('putadd');
 
 // HTTP respone 
 

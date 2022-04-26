@@ -25,7 +25,20 @@ class HomeController extends Controller
      }
 
      public function postadd(Request $request){
-          dd($request);
+          // validate($rules , $message )
+          // $rules là 1 array trong đó key là các input-name và value là các rule mà chúng ta muốn ràng buộc
+          // $message là 1 array nếu ko điền thì nó sẽ tự hiện thông báo mặc định 
+          $request->validate([
+                    'product-name' => 'required | min:6 | integer'
+          ] , 
+          [
+               'product-name.required' => ':attribute bắt buộc phải nhập ',
+               'product-name.min' => 'dữ liệu không được nhỏ hơn :min ký tự ',
+
+          ]);
+     
+         // khi validate thành công thì sẽ cho dữ liệu vào database .....
+         // các công việc khi validate thành công 
           
      } 
 
