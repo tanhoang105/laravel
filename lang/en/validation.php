@@ -145,6 +145,10 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        // tự định nghĩa thêm thông báo khi có lỗi 
+        'product_name' => [
+            'uppercase'=> 'tên sản phẩm phải được viết hoa'
+        ]
     ],
 
     /*

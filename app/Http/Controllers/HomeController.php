@@ -4,12 +4,24 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+// use để sử dụng cho cách 1 : validate tử lớp request
+
+
+use App\Http\Requests\productRequest;
+// use để sử dụng cho cách 2 : validate từ form request 
+
+use Illuminate\Support\Facades\Validator;
+// use để sử dụng cho cách 3 : validate từ lớp validator()
+
+use  App\Rules\UpperCase;
+
 
 class HomeController extends Controller
 {
      public function index(){
           $title = 'Trang chủ';
           $content = "đặt hàng thành công";
+          // return 'hoàng nhật tân ';
           return view('clients.home', compact('title', 'content'));
      }
 
@@ -24,22 +36,98 @@ class HomeController extends Controller
           return view('clients.add' , compact('title'));
      }
 
-     public function postadd(Request $request){
+     public function postadd(
+          // Request $request 
+          // khai báo cho cách 1 khi chúng ta sử dụng phương thức validate từ lớp request
+
+          // productRequest $request
+          // khai báo cho cách 2 khi chúng ta sử dụng form request
+
+          Request $request 
+          // khai báo cho cách 1 và cách 3 khi chúng ta sử dụng lớp validator()
+          
+     ){
+          // cách 1 
           // validate($rules , $message )
           // $rules là 1 array trong đó key là các input-name và value là các rule mà chúng ta muốn ràng buộc
           // $message là 1 array nếu ko điền thì nó sẽ tự hiện thông báo mặc định 
-          $request->validate([
-                    'product-name' => 'required | min:6 | integer'
-          ] , 
-          [
-               'product-name.required' => ':attribute bắt buộc phải nhập ',
-               'product-name.min' => 'dữ liệu không được nhỏ hơn :min ký tự ',
+          // $request->validate([
+          //           'product-name' => 'required | min:6 | integer'
+          // ] , 
+          // [
+          //      'product-name.required' => ':attribute bắt buộc phải nhập ',
+          //      'product-name.min' => 'dữ liệu không được nhỏ hơn :min ký tự ',
+          //      'integer' => 'dữ liệu bắt buộc là số'
 
-          ]);
+          // ]);
+          //===================================================================
+          // cách 2 
+          //     dd($request->all());
      
-         // khi validate thành công thì sẽ cho dữ liệu vào database .....
-         // các công việc khi validate thành công 
+
+
+          //=======================================================================
+          //   dd($request->all());
+
+
+          // cách 3
+          // những thuộc tính mà chúng ta muốn validate cho trường dữ liệu 
+          $rules = [
+               // 'product-name' => 'required | min:6 ' 
+               // sử dụng khi chúng ta ko tạo ra rule mới
+
+               'product-name' => ['required', 'min:6' , new UpperCase] ,
+
+               // 'product-price' => ['required', 'min:6' , new UpperCase] 
+               // cách 2 
+               'product-price' => ['required', 'min:6' , function ($attributes , $value , $fail  ){
+                   if($value != mb_strtoupper($value , 'UTF-8')){
+                         $fail('Trường :attribute không hợp lệ');
+                   }
+               }] 
+
+
           
+          ];
+          // $message = [
+          //      'product-name.required' => ':attribute bắt buộc phải nhập ',
+          //      'product-name.min' => 'dữ liệu không được nhỏ hơn :min ký tự ',
+          //      'integer' => 'dữ liệu bắt buộc là số'
+          // ];
+          
+          // thông báo khi hiển thị lỗi 
+          $message = [
+                    'required' => ':attribute bắt buộc phải nhập nhé',
+                    'min' => 'dữ liệu không được nhỏ hơn :min ký tự ',
+                    'integer' => 'dữ liệu bắt buộc là số'
+     
+          ];
+          // thay đổi trường dữ liệu
+          $attributes = [
+               'product-name' => 'tên sản phẩm',
+               'product-price' => 'giá sản phẩm'
+          ];
+
+          $Validator = Validator::make( $request->all() , $rules, $message  , $attributes); // tạo ra thôi nhưng chưa thực hiện 
+          // $Validator->validate(); // bắt đầu validate() và giúp hiện thị thông báo lỗi
+
+          // khi validate thật bại ví dụ như ko có : $Validator->validate() thì có nghĩa là validate thất bại
+          if($Validator->fails()){
+               // return 'validate thật bại' ; 
+               //khi validate không thành công muốn hiển thị ra thông báo thì ta làm như sau 
+               $Validator->errors()->add('msg' , 'vui lòng kiểm tra lại dữ liệu nhập');
+          }else{
+               // return 'validate thành công';
+               return redirect()->route('products')->with('msg' , 'validate thành công bạn đã được chuyển hướng đến trang sản phẩm');
+          }
+          // khi validate không thành công thì chuyển hướng và mang theo biến validator 
+          return back()->withErrors($Validator);
+
+
+
+
+         // khi validate thành công thì sẽ cho dữ liệu vào database .....
+         // các công việc khi validate thành công       
      } 
 
      public function putadd(Request $request){

@@ -36,5 +36,6 @@
 
     <script src="{{asset('assets/clients/css/bootstrap.min.js')}}"></script>
     <script src="{{asset('assets/clients/css/style.js')}}"></script>
+    <script type="text/javascript" src="https://code.jquery.com.jquery"></script>
 </body>
 </html>
